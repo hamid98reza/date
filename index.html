@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#fff0f5" />
+    <title>یه سؤال کوچولو 💌</title>
+    <style>
+      :root {
+        --pink: #f0448b;
+        --pink2: #ff8eaf;
+        --ink: #46253a;
+        --muted: #866a7b;
+        --cream: #fff8f7;
+        --line: #f2d8e3;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        min-height: 100%;
+        background: #fff0f5;
+      }
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family:
+          Tahoma,
+          "Vazirmatn",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 15% 5%, #ffe0ec 0, transparent 35%),
+          radial-gradient(circle at 90% 80%, #eadfff 0, transparent 32%),
+          #fff7f8;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+      button {
+        touch-action: manipulation;
+        cursor: pointer;
+      }
+      #app {
+        width: 100%;
+        max-width: 520px;
+        margin: 0 auto;
+        padding: calc(16px + env(safe-area-inset-top)) 16px
+          calc(24px + env(safe-area-inset-bottom));
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+      }
+      .card {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(242, 216, 227, 0.9);
+        border-radius: 28px;
+        padding: clamp(22px, 6vw, 32px) clamp(18px, 5vw, 28px);
+        box-shadow: 0 18px 55px rgba(126, 61, 91, 0.12);
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+      }
+      .eyebrow {
+        font-size: 0.76rem;
+        letter-spacing: 0.02em;
+        color: var(--muted);
+        font-weight: 750;
+      }
+      h1 {
+        font-size: clamp(1.65rem, 7.5vw, 2.35rem);
+        line-height: 1.45;
+        margin: 13px 0 12px;
+        letter-spacing: -0.035em;
+      }
+      p {
+        line-height: 1.9;
+        color: var(--muted);
+        margin: 8px 0 18px;
+      }
+      .emoji-hero {
+        font-size: clamp(3.8rem, 18vw, 5.4rem);
+        line-height: 1.3;
+        margin: 12px 0;
+        filter: drop-shadow(0 8px 12px #f6bad0);
+      }
+      .actions {
+        display: grid;
+        gap: 12px;
+        margin-top: 24px;
+      }
+      .btn {
+        border: 0;
+        border-radius: 999px;
+        min-height: 52px;
+        padding: 13px 18px;
+        font-weight: 800;
+        transition:
+          transform 0.18s,
+          box-shadow 0.18s,
+          opacity 0.18s;
+        background: #fff0f5;
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn.primary {
+        color: white;
+        background: linear-gradient(135deg, var(--pink), #ff679e);
+        box-shadow: 0 8px 18px rgba(240, 68, 139, 0.23);
+      }
+      .btn.secondary {
+        background: #fff;
+        color: var(--ink);
+      }
+      .btn:focus-visible,
+      .choice:focus-visible,
+      input:focus-visible {
+        outline: 3px solid #a65cce;
+        outline-offset: 3px;
+      }
+      .tiny {
+        font-size: 0.8rem;
+        color: #a07d90;
+        margin-top: 15px;
+        line-height: 1.8;
+      }
+      .progress {
+        height: 5px;
+        background: #f8e5ed;
+        border-radius: 20px;
+        margin: 0 0 23px;
+        overflow: hidden;
+      }
+      .progress span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--pink), #b58af5);
+        border-radius: 20px;
+        transition: width 0.25s;
+      }
+      .choices {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin: 20px 0;
+      }
+      .choice {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 12px 8px;
+        background: #fff;
+        min-width: 0;
+        min-height: 94px;
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .choice .pic {
+        display: block;
+        font-size: 2rem;
+        margin-bottom: 5px;
+      }
+      .choice small {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 650;
+      }
+      .choice.selected {
+        border: 2px solid var(--pink);
+        background: #fff0f6;
+        box-shadow: 0 5px 14px #f0448b20;
+      }
+      .stack {
+        display: grid;
+        gap: 10px;
+        margin: 20px 0;
+      }
+      .option {
+        width: 100%;
+        text-align: right;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 52px;
+        padding: 12px 15px;
+        border: 1px solid var(--line);
+        border-radius: 15px;
+        background: white;
+        color: var(--ink);
+        font-weight: 650;
+      }
+      .option.selected {
+        border: 2px solid var(--pink);
+        background: #fff0f6;
+      }
+      .option .icon {
+        font-size: 1.25rem;
+      }
+      .nav {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .nav .btn {
+        flex: 1;
+        min-width: 0;
+      }
+      input[type="date"],
+      input[type="time"],
+      input[type="text"] {
+        width: 100%;
+        min-height: 50px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px 14px;
+        background: white;
+        color: var(--ink);
+        font-size: 16px;
+      }
+      .label {
+        display: block;
+        text-align: right;
+        font-size: 0.9rem;
+        font-weight: 750;
+        margin: 14px 0 7px;
+      }
+      .sad-scene {
+        min-height: 160px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        margin: 8px 0;
+      }
+      .sad-face {
+        font-size: 5rem;
+        animation: sadBounce 0.65s ease-in-out;
+      }
+      .rain {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .rain span {
+        position: absolute;
+        top: -20px;
+        font-size: 1.1rem;
+        animation: fall 1.5s ease-in forwards;
+      }
+      .sad-copy {
+        animation: fadeUp 0.5s ease both;
+      }
+      .no-small {
+        font-size: 0.84rem;
+        min-height: 42px;
+        padding: 9px 14px;
+        background: #fff;
+        border: 1px solid #efc7d7;
+        border-radius: 999px;
+        color: #7e5268;
+        box-shadow: 0 4px 10px #9c54771a;
+      }
+      .yes-big {
+        animation: pop 0.55s cubic-bezier(0.2, 1.5, 0.5, 1) both;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .notice {
+        font-size: 0.9rem;
+        border-radius: 14px;
+        padding: 12px;
+        background: #fff2f5;
+        color: #80516a;
+        margin-top: 12px;
+        line-height: 1.8;
+      }
+      .summary {
+        background: #fff8fa;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 14px;
+        text-align: right;
+        margin: 18px 0;
+      }
+      .summary div {
+        padding: 9px 0;
+        border-bottom: 1px solid #f5e3ea;
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+      }
+      .summary div:last-child {
+        border-bottom: 0;
+      }
+      .summary b {
+        font-size: 0.9rem;
+      }
+      .summary span {
+        font-size: 0.9rem;
+        text-align: left;
+        overflow-wrap: anywhere;
+      }
+      @keyframes sadBounce {
+        0% {
+          transform: translateY(-16px) rotate(-8deg);
+          opacity: 0.3;
+        }
+        55% {
+          transform: translateY(5px) rotate(5deg);
+        }
+        100% {
+          transform: translateY(0) rotate(0);
+          opacity: 1;
+        }
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(190px) rotate(30deg);
+          opacity: 0;
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          transform: translateY(12px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(0.75);
+          opacity: 0;
+        }
+        75% {
+          transform: scale(1.06);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      @media (min-width: 430px) {
+        .choices.food {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main id="app">
+      <section class="card" aria-live="polite">
+        <div class="eyebrow">یه دعوت کوچولو، فقط واسه تو 💌</div>
+        <div class="emoji-hero">💌</div>
+        <h1>هی تو! 👀</h1>
+        <p>یه سؤال مهم دارم ازت…<br />آماده‌ای؟ 🥹</p>
+        <div class="actions">
+          <button class="btn primary" id="openBtn">نامه‌تو باز کن ✨</button>
+        </div>
+        <div class="tiny">با یه کم خجالت و کلی ذوق ساخته شده 💗</div>
+      </section>
+    </main>
+    <script>
+      (() => {
+        // بعد از راه‌اندازی بک‌اند، لینک /exec گوگل اسکریپت را اینجا قرار بده.
+        const SUBMIT_ENDPOINT =
+          "https://script.google.com/macros/s/AKfycbwX3ljJZncBYhKLaM4jzv59Bt-JoMLKue5d8a4y4I-n7hErIZhTsJGyAxvajNG9WyqX/exec";
+        const root = document.querySelector("#app");
+        const state = {
+          answer: "",
+          food: "",
+          day: "",
+          customDate: "",
+          plan: "",
+          time: "",
+          note: "",
+        };
+        const foods = [
+          { v: "سوشی", e: "🍣" },
+          { v: "پیتزا", e: "🍕" },
+          { v: "غذای ایتالیایی", e: "🍝" },
+          { v: "برگر", e: "🍔" },
+          { v: "تاکو", e: "🌮" },
+          { v: "سورپرایزم کن", e: "🎁" },
+        ];
+        const days = [
+          { v: "جمعه", e: "📅" },
+          { v: "شنبه", e: "🗓️" },
+          { v: "یکشنبه", e: "🌷" },
+          { v: "یه روز دیگه", e: "✍️" },
+        ];
+        const plans = [
+          { v: "شام و یه نوشیدنی", e: "🍽️" },
+          { v: "کافه‌گردی ☕", e: "☕" },
+          { v: "پیاده‌روی و بستنی", e: "🍦" },
+          { v: "سورپرایزم کن", e: "🎁" },
+        ];
+        const times = [
+          { v: "صبح", d: "۱۰ تا ۱۲", e: "🌤️" },
+          { v: "بعدازظهر", d: "۱۲ تا ۱۷", e: "☀️" },
+          { v: "عصر", d: "۱۷ تا ۲۲", e: "🌙" },
+          { v: "آخر شب", d: "بعد از ۲۲", e: "🌃" },
+        ];
+        function render(markup) {
+          root.innerHTML = `<section class="card">${markup}</section>`;
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        function progress(step) {
+          return `<div class="progress" aria-label="مرحله ${step} از ۵"><span style="width:${Math.round((step / 5) * 100)}%"></span></div>`;
+        }
+        function nav() {
+          return `<div class="nav"><button class="btn secondary" id="backBtn">برگردیم ←</button><button class="btn primary" id="nextBtn">بعدی ✨</button></div>`;
+        }
+        function go(step) {
+          if (step === 1) question();
+          if (step === 2) foodPage();
+          if (step === 3) dayPage();
+          if (step === 4) planPage();
+          if (step === 5) timePage();
+          if (step === 6) finishPage();
+        }
+        function question() {
+          render(`<div class="eyebrow">خب خب، برسیم به اصل مطلب 👀</div><div class="emoji-hero">💗</div><h1>پایه‌ای با من بری دیت؟ 🥹</h1><p>قول می‌دم تلاش کنم بهت خوش بگذره…<br>حالا انتخاب با توئه! 💌</p>
+    <div class="actions"><button class="btn primary yes-big" id="yesBtn">آرههه، بریم! 💖</button><button class="btn secondary" id="noBtn">نه 🙈</button></div><div class="tiny">یه جواب کوچولو، کلی ذوق یا یه قلب شکسته‌ی نمایشی 😅</div>`);
+          document.querySelector("#yesBtn").onclick = () => {
+            state.answer = "آره ❤️";
+            go(2);
+          };
+          document.querySelector("#noBtn").onclick = showSad;
+        }
+        function showSad() {
+          state.answer = "اولش گفت نه";
+          render(`<div class="eyebrow">اوه نه، قلبم یه ترک ریز برداشت 🥲</div><div class="sad-scene"><div class="rain" id="rain"></div><div class="sad-face">🥹</div></div><h1 class="sad-copy">واقعاً نه؟ حتی یه کوچولو؟</h1><p class="sad-copy">اوکی، به تصمیمت احترام می‌ذارم 💗<br>فقط مطمئنی نمی‌خوای یه بار دیگه فکر کنی؟ 👀</p>
+    <div class="actions"><button class="btn primary" id="rethinkBtn">باشه، بریم دیت! 💗</button><button class="no-small" id="noAgainBtn">هنوزم نه…</button></div><div class="tiny">دکمه «نه» هم خجالت کشید، کوچولو شد و رفت یه گوشه 😭</div>`);
+          const rain = document.querySelector("#rain");
+          ["💧", "💔", "☁️", "💧", "♡", "💧"].forEach((x, i) => {
+            const s = document.createElement("span");
+            s.textContent = x;
+            s.style.left = 8 + i * 15 + "%";
+            s.style.animationDelay = i * 0.12 + "s";
+            rain.appendChild(s);
+          });
+          document.querySelector("#rethinkBtn").onclick = () => {
+            state.answer = "آره، بعد از یه کم فکر کردن 💗";
+            go(2);
+          };
+          document.querySelector("#noAgainBtn").onclick = () => {
+            state.answer = "نه";
+            render(
+              `<div class="emoji-hero">🫶</div><h1>اوکی، مرسی که صادق بودی 💗</h1><p>هیچ فشاری نیست، واقعاً!<br>اگه نظرت عوض شد، من از همین‌جا در دسترسم. ✨</p><div class="actions"><button class="btn secondary" id="restartBtn">از اول بریم؟</button></div><div class="tiny">اگه خواستی دوباره شروع کنی، من اینجام 💌</div>`,
+            );
+            document.querySelector("#restartBtn").onclick = () => {
+              Object.assign(state, {
+                answer: "",
+                food: "",
+                day: "",
+                customDate: "",
+                plan: "",
+                time: "",
+                note: "",
+              });
+              question();
+            };
+          };
+        }
+        function foodPage() {
+          render(
+            `${progress(1)}<div class="eyebrow">اول از همه، شکم مهمه 😌</div><h1>چی بخوریم؟ 🍕</h1><p>یکی رو انتخاب کن؛ یا بسپرش به شانس!</p><div class="choices food">${foods.map((x) => `<button class="choice ${state.food === x.v ? "selected" : ""}" data-food="${x.v}"><span class="pic">${x.e}</span><small>${x.v}</small></button>`).join("")}</div>${nav()}`,
+          );
+          document.querySelectorAll("[data-food]").forEach(
+            (b) =>
+              (b.onclick = () => {
+                state.food = b.dataset.food;
+                foodPage();
+              }),
+          );
+          document.querySelector("#backBtn").onclick = question;
+          document.querySelector("#nextBtn").onclick = () =>
+            state.food ? go(3) : alert("اول یه گزینه خوشمزه انتخاب کن 😋");
+        }
+        function dayPage() {
+          render(
+            `${progress(2)}<div class="eyebrow">حالا ببینیم کی جفتمون اوکیم</div><h1>کدوم روز بهت می‌خوره؟ 📅</h1><p>یکی از اینا رو بزن یا تاریخ خودتو انتخاب کن.</p><div class="stack">${days.map((x) => `<button class="option ${state.day === x.v ? "selected" : ""}" data-day="${x.v}"><span class="icon">${x.e}</span>${x.v}</button>`).join("")}</div><div id="customWrap" class="${state.day === "یه روز دیگه" ? "" : "hidden"}"><label class="label" for="customDate">تاریخ پیشنهادی تو</label><input id="customDate" type="date" value="${state.customDate}" /></div>${nav()}`,
+          );
+          document.querySelectorAll("[data-day]").forEach(
+            (b) =>
+              (b.onclick = () => {
+                state.day = b.dataset.day;
+                dayPage();
+              }),
+          );
+          const date = document.querySelector("#customDate");
+          if (date) date.onchange = () => (state.customDate = date.value);
+          document.querySelector("#backBtn").onclick = () => go(2);
+          document.querySelector("#nextBtn").onclick = () => {
+            if (!state.day) return alert("اول یه روز انتخاب کن 😊");
+            if (state.day === "یه روز دیگه" && !state.customDate)
+              return alert("تاریخ دلخواهت رو هم انتخاب کن 😊");
+            go(4);
+          };
+        }
+        function planPage() {
+          render(
+            `${progress(3)}<div class="eyebrow">قرارمون چه وایبی داشته باشه؟</div><h1>چه برنامه‌ای بیشتر می‌چسبه؟ 🌙</h1><p>هر کدوم رو بیشتر دوست داری انتخاب کن.</p><div class="choices">${plans.map((x) => `<button class="choice ${state.plan === x.v ? "selected" : ""}" data-plan="${x.v}"><span class="pic">${x.e}</span><small>${x.v}</small></button>`).join("")}</div>${nav()}`,
+          );
+          document.querySelectorAll("[data-plan]").forEach(
+            (b) =>
+              (b.onclick = () => {
+                state.plan = b.dataset.plan;
+                planPage();
+              }),
+          );
+          document.querySelector("#backBtn").onclick = () => go(3);
+          document.querySelector("#nextBtn").onclick = () =>
+            state.plan ? go(5) : alert("اول وایب دیت رو انتخاب کن ✨");
+        }
+        function timePage() {
+          render(
+            `${progress(4)}<div class="eyebrow">دیگه داریم می‌رسیم 😎</div><h1>چه ساعتی برات بهتره؟ ⏰</h1><p>ساعت دقیق رو بعداً باهم ست می‌کنیم.</p><div class="stack">${times.map((x) => `<button class="option ${state.time === x.v ? "selected" : ""}" data-time="${x.v}"><span class="icon">${x.e}</span><span>${x.v} <small style="color:#987d8d;font-weight:500">(${x.d})</small></span></button>`).join("")}</div><label class="label" for="note">یه چیزی هست که باید بدونم؟ (اختیاری)</label><input id="note" type="text" maxlength="180" placeholder="مثلاً غذایی که دوست نداری یا یه ایده باحال…" value="${escapeHtml(state.note)}">${nav().replace("بعدی ✨", "ثبت جوابا 💌")}`,
+          );
+          document.querySelectorAll("[data-time]").forEach(
+            (b) =>
+              (b.onclick = () => {
+                state.time = b.dataset.time;
+                timePage();
+              }),
+          );
+          document.querySelector("#note").oninput = (e) =>
+            (state.note = e.target.value);
+          document.querySelector("#backBtn").onclick = () => go(4);
+          document.querySelector("#nextBtn").onclick = () => {
+            if (!state.time) return alert("اول یه بازه زمانی انتخاب کن 😊");
+            go(6);
+          };
+        }
+        function escapeHtml(s) {
+          return String(s).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+              })[c],
+          );
+        }
+        async function finishPage() {
+          render(
+            `${progress(5)}<div class="emoji-hero">🎉💗</div><h1>پس شد دیت! 😭❤️</h1><p>اینم خلاصه‌ی پلن فعلی‌مون؛ جزئیاتشو باهم فیکس می‌کنیم.</p><div class="summary"><div><b>جواب</b><span>${escapeHtml(state.answer || "آره ❤️")}</span></div><div><b>خوراکی</b><span>${foods.find((x) => x.v === state.food)?.e || ""} ${escapeHtml(state.food)}</span></div><div><b>روز</b><span>${escapeHtml(state.day === "یه روز دیگه" ? state.customDate : state.day)}</span></div><div><b>برنامه</b><span>${plans.find((x) => x.v === state.plan)?.e || ""} ${escapeHtml(state.plan)}</span></div><div><b>زمان</b><span>${times.find((x) => x.v === state.time)?.e || ""} ${escapeHtml(state.time)}</span></div>${state.note ? `<div><b>یادداشت</b><span>${escapeHtml(state.note)}</span></div>` : ""}</div><button class="btn primary" id="sendBtn">بفرست بریم! 💌</button><div id="sendStatus" class="notice" role="status">جواب‌هات آماده‌ان؛ فقط دکمه رو بزن.</div><div class="tiny">جواب‌ها بعد از زدن دکمه برای من ارسال می‌شن.</div>`,
+          );
+          document.querySelector("#sendBtn").onclick = sendAnswers;
+        }
+        async function sendAnswers() {
+          const btn = document.querySelector("#sendBtn"),
+            status = document.querySelector("#sendStatus");
+          if (SUBMIT_ENDPOINT.includes("PASTE_GOOGLE")) {
+            status.textContent =
+              "یه قدم مونده! لینک وب‌اپ Google Apps Script رو داخل فایل index.html قرار بده تا جواب‌ها ثبت بشن.";
+            return;
+          }
+          btn.disabled = true;
+          btn.textContent = "دارم می‌فرستم…";
+          status.textContent = "یه لحظه، در حال ارسال جواب‌ها…";
+          const payload = {
+            ...state,
+            customDate: state.customDate || "",
+            submittedAt: new Date().toISOString(),
+            userAgent: navigator.userAgent,
+          };
+          try {
+            await fetch(SUBMIT_ENDPOINT, {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify(payload),
+            });
+            render(
+              `<div class="emoji-hero">💌</div><h1>جوابا ثبت شدن! ✨</h1><p>مرسی که جواب دادی؛ حالا می‌تونیم یه دیت قشنگ بچینیم. 💗</p><div class="summary"><div><b>خوراکی</b><span>${escapeHtml(state.food)}</span></div><div><b>روز</b><span>${escapeHtml(state.day === "یه روز دیگه" ? state.customDate : state.day)}</span></div><div><b>برنامه</b><span>${escapeHtml(state.plan)}</span></div><div><b>زمان</b><span>${escapeHtml(state.time)}</span></div></div>`,
+            );
+          } catch (err) {
+            btn.disabled = false;
+            btn.textContent = "دوباره تلاش کن";
+            status.textContent =
+              "ارسال انجام نشد؛ آدرس بک‌اند و تنظیماتش رو بررسی کن.";
+          }
+        }
+        document.querySelector("#openBtn").onclick = question;
+      })();
+    </script>
+  </body>
+</html>
